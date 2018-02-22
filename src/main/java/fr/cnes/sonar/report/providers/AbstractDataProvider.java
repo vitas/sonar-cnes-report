@@ -21,8 +21,6 @@ import com.google.gson.Gson;
 import com.google.gson.JsonElement;
 import com.google.gson.JsonObject;
 import fr.cnes.sonar.report.exceptions.BadSonarQubeRequestException;
-import fr.cnes.sonar.report.exceptions.UnknownParameterException;
-import fr.cnes.sonar.report.input.Params;
 import fr.cnes.sonar.report.input.StringManager;
 
 import java.io.IOException;
@@ -152,11 +150,6 @@ public abstract class AbstractDataProvider {
     private static Properties requests;
 
     /**
-     * Params of the program itself
-     */
-    private Params params;
-
-    /**
      * Tool for parsing json
      */
     private Gson gson;
@@ -215,21 +208,18 @@ public abstract class AbstractDataProvider {
 
     /**
      * Constructor
-     * @param pParams Program's parameters
-     * @param pSingleton RequestManager which does http request
-     * @throws UnknownParameterException when a parameter is not known in the program
+     * @param url String representing the server address.
+     * @param project The id of the project to report.
      */
-    public AbstractDataProvider(final Params pParams, final RequestManager pSingleton)
-            throws UnknownParameterException {
-        this.params = pParams;
+    public AbstractDataProvider(final String url, final String project) {
         // json tool
         this.gson = new Gson();
         // get sonar url
-        this.url = getParams().get("sonar.url");
+        this.url = url;
         // get project key
-        this.projectKey = getParams().get("sonar.project.id");
+        this.projectKey = project;
         // set network tool to execute request
-        this.requestManager = pSingleton;
+        this.requestManager = RequestManager.getInstance();
     }
 
     /**
@@ -311,22 +301,6 @@ public abstract class AbstractDataProvider {
 
         // launch the request on sonarqube server and retrieve resources into a string
         return RequestManager.getInstance().get(preparedRequest);
-    }
-
-    /**
-     * Getter for input
-     * @return a Params object
-     */
-    private Params getParams() {
-        return params;
-    }
-
-    /**
-     * Setter for input
-     * @param pParams the value to give
-     */
-    private void setParams(final Params pParams) {
-        this.params = pParams;
     }
 
     /**

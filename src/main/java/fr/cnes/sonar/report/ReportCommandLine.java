@@ -18,6 +18,7 @@
 package fr.cnes.sonar.report;
 
 import fr.cnes.sonar.report.exceptions.*;
+import fr.cnes.sonar.report.exporters.IExporter;
 import fr.cnes.sonar.report.exporters.JsonExporter;
 import fr.cnes.sonar.report.exporters.XmlExporter;
 import fr.cnes.sonar.report.exporters.docx.DocXExporter;
@@ -134,41 +135,36 @@ public final class ReportCommandLine {
                 LOGGER.severe(String.format(CNES_MKDIR_ERROR, confDirectory));
             }
 
+            // extract params
+            final String url = params.get("sonar.url");
+            final String project = params.get("sonar.project.id");
+            final String author = params.get("report.author");
+            final String date = params.get("report.date");
+
             // Producing the report
-            final Report superReport = new ReportFactory(params).create();
+            final Report superReport = new ReportFactory(url, project, author, date).create();
 
             // Export all
             // export each linked quality profile
-            for(ProfileMetaData metaData : superReport.getProject().getQualityProfiles()) {
-                final Iterator<QualityProfile> iterator =
-                        superReport.getQualityProfiles().iterator();
-                boolean goOn = true;
-                while(iterator.hasNext() && goOn) {
-                    final QualityProfile qp = iterator.next();
-                    if(qp.getKey().equals(metaData.getKey())) {
-                        profileExporter.export(qp.getConf(), params, confDirectory, qp.getKey());
-                        goOn = false;
-                    }
-                }
-            }
+            exportAllQualityProfiles(superReport, profileExporter, confDirectory);
 
             // quality gate information
             final String qualityGateName = superReport.getQualityGate().getName();
             final String qualityGateConf = superReport.getQualityGate().getConf();
             // export the quality gate
-            gateExporter.export(qualityGateConf,params,confDirectory,qualityGateName);
+            gateExporter.export(qualityGateConf, confDirectory, qualityGateName);
 
             // prepare docx report's filename
             final String docXFilename = formatFilename(REPORT_FILENAME,
                     superReport.getProjectName());
             // export the full docx report
-            docXExporter.export(superReport, params, params.get(REPORT_PATH), docXFilename);
+            docXExporter.export(superReport, params.get(REPORT_PATH)+"/"+docXFilename, params.get(StringManager.REPORT_TEMPLATE));
 
             // construct the xlsx filename by replacing date and name
             final String xlsXFilename = formatFilename(ISSUES_FILENAME,
                     superReport.getProjectName());
             // export the xlsx issues' list
-            issuesExporter.export(superReport, params, params.get(REPORT_PATH), xlsXFilename);
+            issuesExporter.export(superReport, params.get(REPORT_PATH)+"/"+xlsXFilename, params.get(StringManager.ISSUES_TEMPLATE));
         } catch (BadExportationDataTypeException | MalformedParameterException |
                 BadSonarQubeRequestException | IOException | UnknownParameterException |
                 MissingParameterException | UnknownQualityGateException | OpenXML4JException |
@@ -177,6 +173,32 @@ public final class ReportCommandLine {
             LOGGER.log(Level.SEVERE,e.getMessage(), e);
             // prints the help
             LOGGER.info(HELP_MESSAGE);
+        }
+    }
+
+    /**
+     * Export all quality profiles related to a given report as xml file depending on exporter.
+     * @param report Modeling data containing data to export.
+     * @param exporter Class given the way to export previous data.
+     * @param dir Directory for output.
+     * @throws XmlException Thrown on xml error.
+     * @throws BadExportationDataTypeException Thrown if the data does not correspond to exporter.
+     * @throws OpenXML4JException Thrown on OpenXML error.
+     * @throws IOException Thrown on files error.
+     */
+    public static void exportAllQualityProfiles(final Report report, final IExporter exporter, final String dir) throws
+            XmlException, BadExportationDataTypeException, OpenXML4JException, IOException {
+        for(ProfileMetaData metaData : report.getProject().getQualityProfiles()) {
+            final Iterator<QualityProfile> iterator =
+                    report.getQualityProfiles().iterator();
+            boolean goOn = true;
+            while(iterator.hasNext() && goOn) {
+                final QualityProfile qp = iterator.next();
+                if(qp.getKey().equals(metaData.getKey())) {
+                    exporter.export(qp.getConf(), dir, qp.getKey());
+                    goOn = false;
+                }
+            }
         }
     }
 

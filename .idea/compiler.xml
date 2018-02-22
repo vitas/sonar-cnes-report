@@ -7,10 +7,12 @@
         <sourceTestOutputDir name="target/generated-test-sources/test-annotations" />
         <outputRelativeToContentRoot value="true" />
         <module name="sonar-cnes-report" />
+        <module name="sonar-report-cnes" />
       </profile>
     </annotationProcessing>
     <bytecodeTargetLevel>
       <module name="sonar-cnes-report" target="1.8" />
+      <module name="sonar-report-cnes" target="1.8" />
     </bytecodeTargetLevel>
   </component>
 </project>

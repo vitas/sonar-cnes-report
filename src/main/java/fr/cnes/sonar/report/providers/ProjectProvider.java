@@ -19,8 +19,6 @@ package fr.cnes.sonar.report.providers;
 
 import com.google.gson.JsonObject;
 import fr.cnes.sonar.report.exceptions.BadSonarQubeRequestException;
-import fr.cnes.sonar.report.exceptions.UnknownParameterException;
-import fr.cnes.sonar.report.input.Params;
 import fr.cnes.sonar.report.input.StringManager;
 import fr.cnes.sonar.report.model.ProfileMetaData;
 import fr.cnes.sonar.report.model.Project;
@@ -40,14 +38,12 @@ public class ProjectProvider extends AbstractDataProvider {
 
     /**
      * Complete constructor
-     * @param params Program's parameters
-     * @param singleton RequestManager which does http request
-     * @throws UnknownParameterException The program does not recognize the parameter
+     * @param url String representing the server address.
+     * @param project The id of the project to report.
      */
-    public ProjectProvider(Params params, RequestManager singleton)
-            throws UnknownParameterException {
-        super(params, singleton);
-        languageProvider = new LanguageProvider(params, singleton);
+    public ProjectProvider(final String url, final String project) {
+        super(url, project);
+        languageProvider = new LanguageProvider(url, project);
     }
 
     /**
