@@ -182,6 +182,10 @@ public abstract class AbstractDataProvider {
     protected String projectKey;
 
     /**
+     * Name of the branch
+     */
+    protected String branch;
+    /**
      * Name of the used quality gate
      */
     protected String qualityGateName;
@@ -209,7 +213,7 @@ public abstract class AbstractDataProvider {
      * @param token String representing the user token.
      * @param project The id of the project to report.
      */
-    AbstractDataProvider(final SonarQubeServer server, final String token, final String project) {
+    AbstractDataProvider(final SonarQubeServer server, final String token, final String project, final String branch) {
         // json tool
         this.gson = new Gson();
         // get sonar server
@@ -218,6 +222,8 @@ public abstract class AbstractDataProvider {
         this.token = token;
         // get project key
         this.projectKey = project;
+        //get branch name
+        this.branch = branch;
     }
 
     /**
@@ -388,4 +394,16 @@ public abstract class AbstractDataProvider {
     public void setQualityGateName(final String pQualityGateName) {
         this.qualityGateName = pQualityGateName;
     }
+
+    /**
+     * Name of the branch
+     * @return branch name
+     */
+    public String getBranch() { return branch; }
+
+    /**
+     * Setter of branch name
+     * @param branch value
+     */
+    public void setBranch(String branch) { this.branch = branch; }
 }

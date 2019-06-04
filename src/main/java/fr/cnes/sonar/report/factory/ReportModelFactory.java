@@ -42,6 +42,12 @@ public class ReportModelFactory {
      * Id of the project to report.
      */
     private String project;
+
+    /**
+     * Id of the branch to report.
+     */
+    private String branch;
+
     /**
      * Author of the project to report.
      */
@@ -60,6 +66,7 @@ public class ReportModelFactory {
         this.server = pServer;
         this.token = pConfiguration.getToken();
         this.project = pConfiguration.getProject();
+        this.branch = pConfiguration.getBranch();
         this.author = pConfiguration.getAuthor();
         this.date = pConfiguration.getDate();
     }
@@ -76,7 +83,7 @@ public class ReportModelFactory {
         final Report report = new Report();
 
         // instantiation of providers
-        final ProviderFactory providerFactory = new ProviderFactory(this.server, this.token, this.project);
+        final ProviderFactory providerFactory = new ProviderFactory(this.server, this.token, this.project, this.branch);
         final IssuesProvider issuesProvider = providerFactory.create(IssuesProvider.class);
         final MeasureProvider measureProvider = providerFactory.create(MeasureProvider.class);
         final ProjectProvider projectProvider = providerFactory.create(ProjectProvider.class);
@@ -97,6 +104,8 @@ public class ReportModelFactory {
         report.setMeasures(measureProvider.getMeasures());
         // set report basic data
         report.setProject(projectProvider.getProject(projectProvider.getProjectKey()));
+
+        report.setBranchName(this.branch);
         // project's name's setting
         report.setProjectName(report.getProject().getName());
         // formatted issues, unconfirmed issues and raw issues' setting

@@ -47,8 +47,8 @@ public class LanguageProvider extends AbstractDataProvider {
      * @param pToken String representing the user token.
      * @param pProject The id of the project to report.
      */
-    public LanguageProvider(final SonarQubeServer pServer, final String pToken, final String pProject) {
-        super(pServer, pToken, pProject);
+    public LanguageProvider(final SonarQubeServer pServer, final String pToken, final String pProject, final String branch) {
+        super(pServer, pToken, pProject, branch);
         languages = new HashMap<>();
     }
 

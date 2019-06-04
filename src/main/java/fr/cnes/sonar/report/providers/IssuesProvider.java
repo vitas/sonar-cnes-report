@@ -56,8 +56,8 @@ public class IssuesProvider extends AbstractDataProvider {
      * @param pToken String representing the user token.
      * @param pProject The id of the project to report.
      */
-    public IssuesProvider(final SonarQubeServer pServer, final String pToken, final String pProject) {
-        super(pServer, pToken, pProject);
+    public IssuesProvider(final SonarQubeServer pServer, final String pToken, final String pProject, final String branch) {
+        super(pServer, pToken, pProject, branch);
     }
 
     /**
@@ -111,7 +111,7 @@ public class IssuesProvider extends AbstractDataProvider {
             final int maxPerPage = Integer.parseInt(getRequest(MAX_PER_PAGE_SONARQUBE));
             // prepare the server to get all the issues
             final String request = String.format(getRequest(GET_ISSUES_REQUEST),
-                    getServer().getUrl(), getProjectKey(), maxPerPage, page, confirmed);
+                    getServer().getUrl(), getProjectKey(), getBranch(), maxPerPage, page, confirmed);
             // perform the request to the server
             final JsonObject jo = request(request);
             // transform json to Issue and Rule objects
@@ -213,7 +213,7 @@ public class IssuesProvider extends AbstractDataProvider {
             final int maxPerPage = Integer.parseInt(getRequest(MAX_PER_PAGE_SONARQUBE));
             // prepare the server to get all the issues
             final String request = String.format(getRequest(GET_ISSUES_REQUEST),
-                    getServer().getUrl(), getProjectKey(), maxPerPage, page, CONFIRMED);
+                    getServer().getUrl(), getProjectKey(), getBranch(), maxPerPage, page, CONFIRMED);
             // perform the request to the server
             final JsonObject jo = request(request);
             // transform json to Issue objects
@@ -252,7 +252,7 @@ public class IssuesProvider extends AbstractDataProvider {
 
         // prepare the request
         final String request = String.format(getRequest(GET_FACETS_REQUEST),
-                getServer().getUrl(), getProjectKey());
+                getServer().getUrl(), getProjectKey(), getBranch());
         // contact the server to request the resources as json
         final JsonObject jo = request(request);
         // put wanted resources in facets array and list

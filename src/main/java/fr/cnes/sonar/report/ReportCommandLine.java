@@ -98,7 +98,7 @@ public final class ReportCommandLine {
             LOGGER.info(message);
 
             // Initialize connexion with SonarQube and retrieve primitive information
-            final SonarQubeServer server = new ServerFactory(conf.getServer(), conf.getToken()).create();
+            final SonarQubeServer server = new ServerFactory(conf.getServer(), conf.getToken(), conf.getBranch()).create();
 
             message = String.format("SonarQube online: %s", server.isUp());
             LOGGER.info(message);

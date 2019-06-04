@@ -41,9 +41,9 @@ public class ProjectProvider extends AbstractDataProvider {
      * @param pToken String representing the user token.
      * @param pProject The id of the project to report.
      */
-    public ProjectProvider(final SonarQubeServer pServer, final String pToken, final String pProject) {
-        super(pServer, pToken, pProject);
-        languageProvider = new LanguageProvider(pServer, pToken, pProject);
+    public ProjectProvider(final SonarQubeServer pServer, final String pToken, final String pProject, final String branch) {
+        super(pServer, pToken, pProject, branch);
+        languageProvider = new LanguageProvider(pServer, pToken, pProject, branch);
     }
 
     /**

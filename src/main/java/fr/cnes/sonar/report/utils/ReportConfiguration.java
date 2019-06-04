@@ -35,6 +35,8 @@ public class ReportConfiguration {
     private String token;
     /** Options for p. */
     private String project;
+    /** Options for b. */
+    private String branch;
     /** Options for o. */
     private String output;
     /** Options for l. */
@@ -61,6 +63,7 @@ public class ReportConfiguration {
      * @param server Value for s option.
      * @param token Value for t option.
      * @param project Value for p option.
+     * @param branch Value for b option.
      * @param output Value for o option.
      * @param language Value for l option.
      * @param author Value for a option.
@@ -72,9 +75,9 @@ public class ReportConfiguration {
      * @param templateSpreadsheet Value for x option.
      */
     private ReportConfiguration(final boolean help, final boolean version, final String server,
-                                final String token, final String project, final String output,
-                                final String language, final String author, final String date,
-                                final boolean enableConf, final boolean enableReport,
+                                final String token, final String project, final String branch,
+                                final String output, final String language, final String author,
+                                final String date, final boolean enableConf, final boolean enableReport,
                                 final boolean enableSpreadsheet, final String templateReport,
                                 final String templateSpreadsheet) {
         this.help = help;
@@ -82,6 +85,7 @@ public class ReportConfiguration {
         this.server = server;
         this.token = token;
         this.project = project;
+        this.branch = branch;
         this.output = output;
         this.language = language;
         this.author = author;
@@ -112,6 +116,7 @@ public class ReportConfiguration {
                 commandLineManager.getOptionValue("s", StringManager.getProperty(StringManager.SONAR_URL)),
                 commandLineManager.getOptionValue("t", StringManager.getProperty(StringManager.SONAR_TOKEN)),
                 commandLineManager.getOptionValue("p", StringManager.EMPTY),
+                commandLineManager.getOptionValue("b", StringManager.getProperty(StringManager.DEFAULT_BRANCH)),
                 commandLineManager.getOptionValue("o", StringManager.getProperty(StringManager.DEFAULT_OUTPUT)),
                 commandLineManager.getOptionValue("l", StringManager.getProperty(StringManager.DEFAULT_LANGUAGE)),
                 commandLineManager.getOptionValue("a", StringManager.getProperty(StringManager.DEFAULT_AUTHOR)),
@@ -141,6 +146,10 @@ public class ReportConfiguration {
 
     public String getProject() {
         return project;
+    }
+
+    public String getBranch() {
+        return branch;
     }
 
     public String getOutput() {

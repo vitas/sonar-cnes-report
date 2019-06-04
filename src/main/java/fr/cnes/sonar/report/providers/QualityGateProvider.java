@@ -49,8 +49,8 @@ public class QualityGateProvider extends AbstractDataProvider {
      * @param pToken String representing the user token.
      * @param pProject The id of the project to report.
      */
-    public QualityGateProvider(final SonarQubeServer pServer, final String pToken, final String pProject) {
-        super(pServer, pToken, pProject);
+    public QualityGateProvider(final SonarQubeServer pServer, final String pToken, final String pProject, final String branch) {
+        super(pServer, pToken, pProject, branch);
     }
 
     /**

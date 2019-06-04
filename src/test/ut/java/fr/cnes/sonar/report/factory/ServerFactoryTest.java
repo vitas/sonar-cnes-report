@@ -10,7 +10,7 @@ public class ServerFactoryTest {
     @Test
     public void createTest() throws BadSonarQubeRequestException {
         try {
-            ServerFactory serverFactory = new ServerFactory("http://biiiiiim", "noauth");
+            ServerFactory serverFactory = new ServerFactory("http://biiiiiim", "noauth", "master");
             serverFactory.create();
         } catch (SonarQubeException e) {
             Assert.assertEquals("Impossible to reach SonarQube instance.", e.getMessage());

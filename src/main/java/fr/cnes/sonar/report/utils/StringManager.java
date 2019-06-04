@@ -56,6 +56,8 @@ public final class StringManager {
     public static final String DEFAULT_LANGUAGE = "report.locale";
     /** Default name for the author. */
     public static final String DEFAULT_AUTHOR = "report.author";
+    /** Default name of the branch. */
+    public static final String DEFAULT_BRANCH = "report.branch";
 
     /** Logger for StringManager. */
     private static final Logger LOGGER = Logger.getLogger(StringManager.class.getCanonicalName());

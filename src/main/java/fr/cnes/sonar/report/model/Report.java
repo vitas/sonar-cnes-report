@@ -29,6 +29,11 @@ public class Report {
      * Name of the project/report
      */
     private String projectName;
+
+    /**
+     * Name of the branch
+     */
+    private String branchName;
     /**
      * Name of the author
      */
@@ -75,6 +80,7 @@ public class Report {
      */
     public Report() {
         this.projectName = "";
+        this.branchName = StringManager.EMPTY;
         this.projectAuthor = "";
         this.projectDate = "";
         this.qualityProfiles = new ArrayList<>();
@@ -365,5 +371,14 @@ public class Report {
      */
     public void setUnconfirmed(List<Issue> pIssues) {
         this.unconfirmed = new ArrayList<>(pIssues);
+    }
+
+
+    public String getBranchName() {
+        return branchName;
+    }
+
+    public void setBranchName(String branchName) {
+        this.branchName = branchName;
     }
 }

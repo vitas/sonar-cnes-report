@@ -34,8 +34,8 @@ public class SonarQubeInfoProvider extends AbstractDataProvider {
      * @param pServer SonarQube server.
      * @param pToken String representing the user token.
      */
-    public SonarQubeInfoProvider(final SonarQubeServer pServer, final String pToken) {
-        super(pServer, pToken, "");
+    public SonarQubeInfoProvider(final SonarQubeServer pServer, final String pToken, final String branch) {
+        super(pServer, pToken, "", branch);
     }
 
     /**

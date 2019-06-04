@@ -40,14 +40,18 @@ public class ServerFactory {
     /** Token of the SonarQube user. */
     private String token;
 
+    /** branch name */
+    private String branch;
+
     /**
      * Complete constructor.
      * @param pUrl Value for server.
      * @param pToken Value for token.
      */
-    public ServerFactory(final String pUrl, final String pToken) {
+    public ServerFactory(final String pUrl, final String pToken, final String branch) {
         this.url = pUrl;
         this.token = pToken;
+        this.branch = branch;
     }
 
     /**
@@ -64,7 +68,7 @@ public class ServerFactory {
         server.setUrl(this.url);
 
         // instantiation of providers
-        final SonarQubeInfoProvider infoProvider = new SonarQubeInfoProvider(server, this.token);
+        final SonarQubeInfoProvider infoProvider = new SonarQubeInfoProvider(server, this.token, this.branch);
 
         // Set if the server is up or not.
         server.setStatus(infoProvider.getSonarQubeStatus());
